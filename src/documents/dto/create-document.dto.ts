@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsString, IsObject } from 'class-validator'
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
+import { Transform } from 'class-transformer'
 
 export class CreateDocumentDto {
   @ApiProperty()
@@ -10,11 +11,18 @@ export class CreateDocumentDto {
   @ApiProperty({
     example: {
       autor: 'João Silva',
-      tipo: 'PDF',
-      tema: 'Patrimônio cultural',
+      tema: 'História',
       linguagem: 'Português',
+      ano: '2024',
     },
   })
-  @IsObject()
+  @IsOptional()
+  @Transform(({ value }) => {
+    try {
+      return typeof value === 'string' ? JSON.parse(value) : value
+    } catch {
+      return null
+    }
+  })
   metadata: Record<string, any>
 }

@@ -5,17 +5,25 @@ import { CreateDocumentDto } from './dto/create-document.dto'
 @Injectable()
 export class DocumentsService {
   constructor(private prisma: PrismaService) {}
-
-  async create(userId: string, dto: CreateDocumentDto) {
+  
+  async create(userId: string, dto: CreateDocumentDto, pdfPath: string) {
+    if (!dto.metadata || typeof dto.metadata !== 'object') {
+      console.error('METADADOS QUEBRADOS:', dto.metadata)
+      throw new Error('Metadados inválidos')
+    }
+  
     return this.prisma.document.create({
       data: {
         name: dto.name,
         status: 'INICIADO',
-        metadata: dto.metadata,
         userId,
+        pdfPath,
+        metadata: dto.metadata,
       },
     })
   }
+  
+  
 
   async findAllByUser(userId: string) {
     return this.prisma.document.findMany({
@@ -42,4 +50,6 @@ export class DocumentsService {
       where: { id },
     })
   }
+
+  
 }

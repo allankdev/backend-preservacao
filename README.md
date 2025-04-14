@@ -33,6 +33,31 @@ Este repositório contém o **backend** do sistema fullstack para gestão e pres
 - 🔁 **Simulação do processo de preservação via Archivematica Mock** (`GET /documents/:id/processar`)
 
 ---
+📦 Estrutura do Projeto
+
+/src
+  ├── auth/                  # Módulo de autenticação (JWT, login, registro)
+  │   ├── dto/               # DTOs para login e registro
+  │   ├── jwt-auth.guard.ts  # Guard para rotas protegidas
+  │   ├── jwt-strategy.ts    # Estratégia JWT para validação
+  │   └── auth.module.ts     # Módulo Auth
+  │
+  ├── documents/             # Módulo principal de documentos
+  │   ├── dto/               # DTOs para criação e atualização de status
+  │   ├── documents.controller.ts
+  │   ├── documents.service.ts
+  │   └── documents.module.ts
+  │
+  ├── arquivematica/         # Simulação do processamento SIP/AIP/DIP
+  │   ├── archivematica.service.ts
+  │   └── archivematica.module.ts
+  │
+  ├── prisma/                # Conexão e schema do banco via Prisma
+  └── app.module.ts          # Módulo raiz
+/uploads                     # Pasta de uploads locais de PDFs
+/test                        # Testes e2e (NestJS + Jest)
+.env                         # Variáveis de ambiente
+
 
 ## 📦 Estrutura SIP/AIP/DIP (Simulada)
 

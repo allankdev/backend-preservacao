@@ -27,7 +27,10 @@ export class AuthService {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
-    return { message: 'Usuário registrado com sucesso' }
+    return {
+      message: 'Usuário registrado com sucesso',
+      token, // ✅ exibe token no Swagger
+    }
   }
 
   async login(dto: LoginDto, res: Response) {
@@ -45,6 +48,9 @@ export class AuthService {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
-    return { message: 'Login realizado com sucesso' }
+    return {
+      message: 'Login realizado com sucesso',
+      token, // ✅ exibe token no Swagger
+    }
   }
 }

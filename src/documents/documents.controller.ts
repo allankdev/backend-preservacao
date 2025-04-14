@@ -30,6 +30,7 @@ import {
   ApiParam,
 } from '@nestjs/swagger'
 import { UpdateStatusDto } from './dto/update-status.dto'
+import { ArchivematicaService } from '../archivematica/archivematica.service'
 
 @ApiTags('Documentos')
 @ApiBearerAuth()
@@ -38,6 +39,7 @@ export class DocumentsController {
   constructor(
     private readonly documentsService: DocumentsService,
     private readonly jwtService: JwtService,
+    private readonly archivematicaService: ArchivematicaService, // 👈 novo
   ) {}
 
   private extractUserIdFromRequest(req: Request): string | null {
@@ -152,5 +154,12 @@ export class DocumentsController {
     )
 
     return { token }
+  }
+
+  @Get(':id/processar')
+  @ApiOperation({ summary: 'Disparar manualmente simulação de preservação' })
+  @ApiParam({ name: 'id', type: 'string' })
+  async triggerSimulation(@Param('id') id: string) {
+    return this.archivematicaService.processarSimulado(id)
   }
 }
